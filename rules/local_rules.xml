@@ -1,0 +1,29 @@
+<!-- Custom Wazuh Detection Rules -->
+<!-- Author: knightking999 | Project: SOC Detection Lab -->
+
+<group name="local,attack,">
+
+  <!-- T1053.005 - Scheduled Task Created -->
+  <rule id="100003" level="12">
+    <if_group>windows</if_group>
+    <field name="win.system.eventID">^4698$</field>
+    <description>MITRE T1053.005 - Scheduled Task Created - Possible Persistence</description>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+    <group>attack,persistence,</group>
+  </rule>
+
+  <!-- T1053.005 - Scheduled Task via Command Line -->
+  <rule id="100002" level="12">
+    <if_group>windows</if_group>
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(schtasks|at\.exe)</field>
+    <description>MITRE T1053.005 - Scheduled Task via Command Line - Possible Persistence</description>
+    <mitre>
+      <id>T1053.005</id>
+    </mitre>
+    <group>attack,persistence,</group>
+  </rule>
+
+</group>
