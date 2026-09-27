@@ -1,0 +1,28 @@
+title: Scheduled Task Created via schtasks.exe
+id: T1053-005-scheduled-task
+status: experimental
+description: Detects the creation of scheduled tasks via schtasks.exe which is a common persistence technique used by attackers
+author: knightking999
+date: 2026/09/27
+references:
+    - https://attack.mitre.org/techniques/T1053/005/
+tags:
+    - attack.persistence
+    - attack.privilege_escalation
+    - attack.t1053.005
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\schtasks.exe'
+        CommandLine|contains:
+            - '/create'
+            - '/sc'
+            - '/tn'
+    condition: selection
+falsepositives:
+    - Legitimate scheduled task creation by administrators
+    - Software installation processes
+    - Windows Update
+level: high
